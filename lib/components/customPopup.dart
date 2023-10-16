@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:salesapp/controller/controller.dart';
 import 'package:salesapp/db_helper.dart';
 import 'package:provider/provider.dart';
@@ -45,8 +46,12 @@ class CustomPopup {
               exit(0);
             }
             if (type == "collection") {
-              await OrderAppDB.instance.upadteCommonQuery(
-                  "collectionTable", "rec_cancel='1'", "rec_row_num=$rowNum");
+               String cancel_time =
+                  DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+                await OrderAppDB.instance.upadteCommonQuery(
+                  "collectionTable",
+                  "rec_status = 0 , rec_cancel = 1 , cancel_staff ='${userId}' , cancel_dateTime= '${cancel_time}' ",
+                  "rec_row_num=$rowNum");
               Provider.of<Controller>(context, listen: false)
                   .dashboardSummery(userId, date, aid, context);
               Provider.of<Controller>(context, listen: false)

@@ -415,12 +415,16 @@ class Controller extends ChangeNotifier {
                 );
               }
             } else {
+               isLoading = false;
+                notifyListeners();
               CustomSnackbar snackbar = CustomSnackbar();
               snackbar.showSnackbar(context, "Invalid Apk Key", "");
             }
           }
           /////////////////////////////////////////////////////
           if (sof == "0") {
+             isLoading = false;
+                notifyListeners();
             CustomSnackbar snackbar = CustomSnackbar();
             snackbar.showSnackbar(context, msg.toString(), "");
           }
@@ -706,7 +710,6 @@ class Controller extends ChangeNotifier {
         isLoading = true;
         notifyListeners();
       }
-
       http.Response response = await http.post(
         url,
         body: body,

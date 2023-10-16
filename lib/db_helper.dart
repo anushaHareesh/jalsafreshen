@@ -651,7 +651,9 @@ class OrderAppDB {
         $rec_note TEXT,
         $rec_staffid TEXT,
         $rec_cancel INTEGER,
-        $rec_status INTEGER
+        $rec_status INTEGER,
+        $cancel_staff TEXT,
+        $cancel_dateTime TEXT
       )
       ''');
     await db.execute('''
@@ -1525,7 +1527,9 @@ class OrderAppDB {
       String note,
       String sttid,
       int cancel,
-      int status) async {
+      int status,
+      String cancel_staff,
+      String cancel_dateTime) async {
     double amt = 0.0;
     final db = await database;
     print("amt---- $amtString---$disc");
@@ -1537,7 +1541,7 @@ class OrderAppDB {
       amt = double.parse(amtString);
     }
     var query =
-        'INSERT INTO collectionTable(rec_date, rec_time, rec_cusid, rec_row_num, rec_series, rec_mode, rec_amount, rec_disc, rec_note, rec_staffid, rec_cancel, rec_status) VALUES("${rec_date}","${rec_time}","${rec_cusid}", $rec_row_num, "${ser}", "${mode}", $amt, "${disc}", "${note}", "${sttid}", ${cancel}, ${status})';
+        'INSERT INTO collectionTable(rec_date, rec_time, rec_cusid, rec_row_num, rec_series, rec_mode, rec_amount, rec_disc, rec_note, rec_staffid, rec_cancel, rec_status,cancel_staff,cancel_dateTime) VALUES("${rec_date}","${rec_time}","${rec_cusid}", $rec_row_num, "${ser}", "${mode}", $amt, "${disc}", "${note}", "${sttid}", ${cancel}, ${status},"$cancel_staff","$cancel_dateTime")';
     var res = await db.rawInsert(query);
     print(query);
 
@@ -1621,7 +1625,7 @@ class OrderAppDB {
       String str = areaidfromStaff[areaidfromStaff.length - 1];
       if (str == ",") {
         str = areaidfromStaff.substring(0, areaidfromStaff.length - 1);
-      }else{
+      } else {
         str = areaidfromStaff;
       }
       aidsplit = str.split(",");
@@ -2733,7 +2737,7 @@ class OrderAppDB {
     Database db = await instance.database;
     var result = await db.rawQuery(
         // "SELECT * FROM collectionTable");
-        "SELECT collectionTable.id as colid, collectionTable.rec_row_num as phid, collectionTable.rec_cusid as cid,collectionTable.rec_date as cdate,collectionTable.rec_series || collectionTable.rec_row_num as cseries,collectionTable.rec_mode as cmode,collectionTable.rec_amount as camt,collectionTable.rec_disc as cdisc,collectionTable.rec_note as cremark, collectionTable.rec_staffid as sid,collectionTable.rec_cancel as cflag,collectionTable.rec_cancel as dflag,collectionTable.rec_date || ' ' || collectionTable.rec_time as edate FROM collectionTable where rec_status=0");
+        "SELECT collectionTable.id as colid, collectionTable.rec_row_num as phid, collectionTable.rec_cusid as cid,collectionTable.rec_date as cdate,collectionTable.rec_series || collectionTable.rec_row_num as cseries,collectionTable.rec_mode as cmode,collectionTable.rec_amount as camt,collectionTable.rec_disc as cdisc,collectionTable.rec_note as cremark, collectionTable.rec_staffid as sid,collectionTable.rec_cancel as cflag,collectionTable.rec_cancel as dflag,collectionTable.rec_date || ' ' || collectionTable.rec_time as edate,collectionTable.cancel_staff as dstaff, collectionTable.cancel_dateTime as dtime FROM collectionTable where rec_status=0");
     print("collectionTable select result.........$result");
     return result;
   }

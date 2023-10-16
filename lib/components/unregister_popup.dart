@@ -7,6 +7,7 @@ class Unreg {
     Widget okButton = TextButton(
       child: Text("Ok"),
       onPressed: () {
+        
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => RegistrationScreen()));
       },

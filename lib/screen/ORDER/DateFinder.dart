@@ -63,11 +63,11 @@ class DateFind {
     }
     if (ordType == "sales") {
       Provider.of<Controller>(context, listen: false)
-          .todaySales(fromDate!, gen_condition!, "");
+          .todaySales(fromDate!, " ", "");
     }
     if (ordType == "collection") {
       Provider.of<Controller>(context, listen: false)
-          .todayCollection(fromDate!, gen_condition!);
+          .todayCollection(fromDate!, " ");
     }
   }
 }
